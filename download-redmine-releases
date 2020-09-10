@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# License: CC0
+
 set -e
 
 wget https://redmine.org/releases/ \
