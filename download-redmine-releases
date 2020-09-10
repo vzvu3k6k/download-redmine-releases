@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 wget https://redmine.org/releases/ \
   --recursive \
   --no-host-directories \
@@ -7,3 +9,21 @@ wget https://redmine.org/releases/ \
   --wait=3 \
   --accept tar.gz,tar.gz.md5,tar.gz.sha256 \
   --reject-regex '\?C='
+
+for tarball in releases/{,**/}*.tar.gz; do
+  pushd "$(dirname "$tarball")" > /dev/null
+
+  tarball=$(basename "$tarball")
+
+  # sha256 is more secure. Use md5 as fallback.
+  if [[ -e "${tarball}.sha256" ]]; then
+    sha256sum --quiet -c "${tarball}.sha256"
+  elif [[ -e "${tarball}.md5" ]]; then
+    md5sum --quiet -c "${tarball}.md5"
+  else
+    echo "${tarball}: no checksum file found"
+    exit 1
+  fi
+
+  popd > /dev/null
+done
