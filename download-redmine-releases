@@ -7,7 +7,7 @@ set -e
 wget https://redmine.org/releases/ \
   --recursive \
   --no-host-directories \
-  --timestamping \
+  --no-clobber \
   --wait=3 \
   --accept tar.gz,tar.gz.md5,tar.gz.sha256 \
   --reject-regex '\?C='
