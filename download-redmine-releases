@@ -17,7 +17,7 @@ for tarball in releases/{,**/}*.tar.gz; do
 
   tarball=$(basename "$tarball")
 
-  # sha256 is more secure. Use md5 as fallback.
+  # sha256 is more secure than md5.
   if [[ -e "${tarball}.sha256" ]]; then
     sha256sum --quiet -c "${tarball}.sha256"
   elif [[ -e "${tarball}.md5" ]]; then
